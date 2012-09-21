@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<model package="overthruster" baseClass="xPDOObject" platform="mysql" defaultEngine="MyISAM" phpdoc-package="overthruster" version="1.1">
+    <object class="otTemplate" table="ot_templates" extends="xPDOSimpleObject">
+        <field key="chunk" dbtype="int" precision="10" attributes="unsigned" phptype="integer" null="false" default="0" />
+        <field key="original" dbtype="mediumtext" phptype="string" />
+        <field key="otwhere" dbtype="text" phptype="string" />
+        <field key="ottype" dbtype="varchar" precision="255" phptype="string" null="false" default=""/>
+        <aggregate alias="Chunk" class="modChunk" local="chunk" foreign="id" cardinality="one" owner="foreign"/>
+        <composite alias="otOutput" class="otOutput" local="id" foreign="ottemplate" cardinality="many" owner="local" />
+        
+        <index alias="chunk" name="chunk" primary="false" unique="false" type="BTREE">
+            <column key="chunk" length="" collation="A" null="false" />
+        </index>
+    </object>
+    <object class="otOutput" table="ot_outputs" extends="xPDOSimpleObject">
+        <field key="ottemplate" dbtype="int" precision="10" attributes="unsigned" phptype="integer" null="false" default="0" />
+        <field key="resource" dbtype="int" precision="10" attributes="unsigned" phptype="integer" null="false" default="0" />
+        <field key="output" dbtype="mediumtext" phptype="string" />
+        <aggregate alias="Resource" class="modResource" local="resource" foreign="id" cardinality="one" owner="foreign"/>  
+        <aggregate alias="otTemplate" class="otTemplate" local="ottemplate" foreign="id" cardinality="one" owner="foreign"/>
+        <index alias="Resource" name="resource" primary="false" unique="false" type="BTREE">
+            <column key="resource" length="" collation="A" null="false" />
+        </index>
+        <index alias="otTemplate" name="ottemplate" primary="false" unique="false" type="BTREE">
+            <column key="ottemplate" length="" collation="A" null="false" />
+        </index>
+    </object>
+</model>
